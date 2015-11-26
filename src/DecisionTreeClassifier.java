@@ -15,7 +15,7 @@ public class DecisionTreeClassifier {
 	
 	public static void TreeClassifier() throws Exception
 	{
-		String filepath = "C:\\Users\\admin\\CS446\\workspace\\CS598Project\\TwitterFeatures";
+		String filepath = "TwitterFeatures.arff";
 		Instances data = new Instances(new FileReader(new File(filepath)));
 		data.setClassIndex(data.numAttributes() - 1);
 		System.out.println(data.classAttribute());

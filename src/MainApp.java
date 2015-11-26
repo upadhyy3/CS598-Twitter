@@ -19,7 +19,7 @@ public class MainApp
     {
         count = 0;
         labelTweet = new LabelTweets();
-        labelTweet.getTwitterDb().importTweetsFromFile("Tweets");
+        labelTweet.getTwitterDb().importTweetsFromFile("TWEETS");
         unLabeledTweets = labelTweet.getUnlabeledTweet();
         unLabeledJson = labelTweet.getUnlabeledJson();
     }
@@ -38,7 +38,7 @@ public class MainApp
             @Override
             public void actionPerformed(ActionEvent ae)
             {
-            	labelTweet.labelTweet(unLabeledJson.get(count),"C");
+            	labelTweet.labelTweet(unLabeledJson.get(count), "C", unLabeledTweets.get(count).getRestaurant_name());
                 count++;
                 if(count >= unLabeledTweets.size())System.exit(0);
                 textArea.setText(unLabeledTweets.get(count).getMessage());
@@ -52,7 +52,7 @@ public class MainApp
             @Override
             public void actionPerformed(ActionEvent ae)
             {
-            	labelTweet.labelTweet(unLabeledJson.get(count),"NC");
+            	labelTweet.labelTweet(unLabeledJson.get(count), "NC", unLabeledTweets.get(count).getRestaurant_name());
                 count++;
                 if(count >= unLabeledTweets.size())System.exit(0);
                 textArea.setText(unLabeledTweets.get(count).getMessage());

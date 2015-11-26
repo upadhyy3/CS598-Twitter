@@ -17,8 +17,8 @@ import com.google.gson.JsonObject;
 public class PostgreSQL {
 	
 	private final String url = "jdbc:postgresql://127.0.0.1:5432/testdb";
-	private final String user = "shivam";
-	private final String password = "foo.bar";
+	private final String user = "chanon";
+	private final String password = "";
 	
 	private Connection connection;
 
@@ -90,13 +90,18 @@ public class PostgreSQL {
 		Statement st;
 		File dir = new File(targetDir);
 		File[] files = dir.listFiles();
+		System.out.println(files.length+"");
 		for (File f : files) {
-			if(f.isFile()){
+			if(f.isFile() && !".DS_Store".equals(f.getName())){
 				try (BufferedReader br = new BufferedReader(new FileReader(f))) {
 					String line;
 				    while ((line = br.readLine()) != null) {
+				    	line = removeEmojiAndSymbolFromString(line);
+				    	String tweet = line.substring(line.indexOf(",")+1);
+				    	String restaurant_name = line.substring(0, line.indexOf(","));
 				    	st = connection.createStatement();
-				    	String updateSQLStr = "insert into tweets (tweet) values('" + removeEmojiAndSymbolFromString(line) + "');";
+				    	String updateSQLStr = "insert into tweets (tweet,restaurant_name) values('" + tweet + "','"
+				    							+ restaurant_name + "');";
 				    	System.out.println(updateSQLStr);
 						st.executeUpdate(updateSQLStr);
 				   }
@@ -130,10 +135,10 @@ public class PostgreSQL {
 		return rs;
 	}
 	
-	public void insertLabeledTweet(JsonObject json){
+	public void insertLabeledTweet(JsonObject json, String restaurant_name){
 		Statement st;
-		String sqlStr = "insert into tweets_labeled (tweet) values('" + removeEmojiAndSymbolFromString(json.toString()) + "');";
-		
+		String sqlStr = "insert into tweets_labeled (tweet,restaurant_name) values('" + removeEmojiAndSymbolFromString(json.toString()) + "','"
+							+ restaurant_name + "');";
 		try {
 			st = connection.createStatement();
 			st.executeUpdate(sqlStr);

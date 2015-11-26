@@ -45,7 +45,8 @@ import weka.core.converters.CSVSaver;
 		static{
 		MSGfeatures = new String [] {"LengthOfMessage","LengthOfWords","CountOfUpperCaseCharacters","ContainsHashtag","NumberOfUniqueCharacters"
 		,"Retweet_Count","tweetIsaReply","numberOf@", "hasURL","NumberOfURL","UseOfURLShotner"};
-	//	userFeatures = new String [] {"NumberOfFollowers","NumberOfFollowees","Verified"};
+		userFeatures = new String [] {"NumberOfStatuses","NumberOfFollowers","NumberOfFollowees","Verified","LengthOfDescription","LengthOfScreenName", "HasURL", 
+		"RatioOfFollowersToFollowees"};
 		labelOfTweet = new FastVector(2);
 		labelOfTweet.addElement("\"C\"");
 		labelOfTweet.addElement("\"NC\"");
@@ -68,8 +69,16 @@ import weka.core.converters.CSVSaver;
 		    int retweet_count = tweet.getRetweet_count();
 		    String is_reply = tweet.getIn_reply_to_screen_name();
 		    ArrayList<String> fullURL = tweet.getExpanded_url();
+		    int number_of_statuses = tweet.getNumber_of_statuses();
+		    int number_of_followers = tweet.getNumber_of_followers();
+		    int number_of_followees = tweet.getNumber_of_followees();
+		    boolean is_verified = tweet.isIs_verified();
+		    String description = tweet.getDescription();
+		    String screen_name = tweet.getScreen_name();
+		    String user_url = tweet.getUser_url();
 		  //  System.out.println(label);
-		    Instance instance = makeInstance(instances, line,label,retweet_count,is_reply,fullURL);
+		    Instance instance = makeInstance(instances, line,label,retweet_count,is_reply,fullURL, number_of_statuses, number_of_followers, number_of_followees, 
+					is_verified, description, screen_name, user_url);
 	
 		    instances.add(instance);
 		}
@@ -239,9 +248,11 @@ import weka.core.converters.CSVSaver;
 	        //  return domain.startsWith("www.") ? domain.substring(4) : domain;
 	    }
 	    
-	    private static Instance makeInstance(Instances instances, String inputLine,String label,int retweet_count,String is_reply,ArrayList<String> fullURL) {
+	    private static Instance makeInstance(Instances instances, String inputLine,String label,int retweet_count,String is_reply,ArrayList<String> fullURL,
+	    		int number_of_statuses, int number_of_followers, int number_of_followees, boolean is_verified, String description, String screen_name, 
+				String user_url) {
 	    	inputLine = inputLine.trim();
-	    	Instance instance = new Instance(MSGfeatures.length+ 1);
+	    	Instance instance = new Instance(MSGfeatures.length+ userFeatures.length + 1);
 	    	instance.setDataset(instances);
 	    //	int lengthOfMessage = inputLine.length();
 	    	double lengthOfMessage = inputLine.length();
@@ -328,6 +339,42 @@ import weka.core.converters.CSVSaver;
 		    	}
 		    	instance.setValue(instances.attribute(10),(double)(average/fullURL.size()));
 	    	}
+	    	
+	    	//==================================== userFeatures start here ====================================
+	    	
+	    	//Number of statuses
+	    	instance.setValue(instances.attribute(11),(double)number_of_statuses);
+	    	
+	    	//Number of followers
+	    	instance.setValue(instances.attribute(12),(double)number_of_followers);
+	    	
+	    	//Number of followees
+	    	instance.setValue(instances.attribute(13),(double)number_of_followees);
+	    	
+	    	//Is verified
+			if(is_verified){
+				instance.setValue(instances.attribute(14),(double)1);
+			}else{
+				instance.setValue(instances.attribute(14),(double)0);
+			}
+			
+			//Length of description
+			instance.setValue(instances.attribute(15),(double)description.length());
+			
+			//Length of screen name
+			instance.setValue(instances.attribute(16),(double)screen_name.length());
+			
+			//Has URL
+			if(!"null".equals(user_url)){
+				instance.setValue(instances.attribute(17),(double)1);
+			}else{
+				instance.setValue(instances.attribute(17),(double)0);
+			}
+			
+			//Ratio number of followers to followees
+			instance.setValue(instances.attribute(18),((double)number_of_followers)/((double)number_of_followees));
+	    	
+			//==================================== End of userFeatures =======================================
 
 
 	    	
@@ -366,10 +413,10 @@ import weka.core.converters.CSVSaver;
 	//	    attributes.add(new Attribute(featureName));
 		    attributes.addElement(new Attribute(featureName));
 		}
-	//	for (String featureName : userFeatures) {
-	//	  //  attributes.add(new Attribute(featureName));
-	//	    attributes.addElement(new Attribute(featureName));
-	//	}
+		for (String featureName : userFeatures) {
+		  //  attributes.add(new Attribute(featureName));
+		    attributes.addElement(new Attribute(featureName));
+		}
 		Attribute classLabel = new Attribute("Class",labelOfTweet);
 		attributes.addElement(classLabel);
 	//	attributes.add(classLabel);
