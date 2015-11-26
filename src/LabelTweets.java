@@ -35,16 +35,16 @@ public class LabelTweets {
 			    String restaurant_name = rs.getObject(3).toString();
 			    Tweet tw = new Tweet();
 			    tw.setRestaurant_name(restaurant_name);
-			    tw.setMessage(json.get("text").toString());
+			    tw.setMessage(json.get("text").toString().replace("\"",""));
 			    tw.setRetweet_count(json.get("retweet_count").getAsInt());
-			    tw.setIn_reply_to_screen_name(json.get("in_reply_to_screen_name").toString());
+			    tw.setIn_reply_to_screen_name(json.get("in_reply_to_screen_name").toString().replace("\"",""));
 			 
 			    int numberOfURL = json.get("entities").getAsJsonObject().get("urls").getAsJsonArray().size();
 			    if(numberOfURL>0)
 			    {  ArrayList<String> expandedURL = new ArrayList<String>();
 			    	for(int i = 0; i <numberOfURL;i++)
 			    	{
-			    	expandedURL.add(json.get("entities").getAsJsonObject().get("urls").getAsJsonArray().get(i).getAsJsonObject().get("expanded_url").toString().replace("\"", ""));		    
+			    	expandedURL.add(json.get("entities").getAsJsonObject().get("urls").getAsJsonArray().get(i).getAsJsonObject().get("expanded_url").toString().replace("\"","").replace("\"", ""));		    
 			    	}			   
 			       tw.setExpanded_url(expandedURL);
 			    }
@@ -53,9 +53,9 @@ public class LabelTweets {
 			    tw.setNumber_of_followers(json.get("user").getAsJsonObject().get("followers_count").getAsInt());
 			    tw.setNumber_of_followees(json.get("user").getAsJsonObject().get("friends_count").getAsInt());
 			    tw.setIs_verified(json.get("user").getAsJsonObject().get("verified").getAsBoolean());
-			    tw.setDescription(json.get("user").getAsJsonObject().get("description").toString());
-			    tw.setScreen_name(json.get("user").getAsJsonObject().get("screen_name").toString());
-			    tw.setUser_url(json.get("user").getAsJsonObject().get("url").toString());
+			    tw.setDescription(json.get("user").getAsJsonObject().get("description").toString().replace("\"",""));
+			    tw.setScreen_name(json.get("user").getAsJsonObject().get("screen_name").toString().replace("\"",""));
+			    tw.setUser_url(json.get("user").getAsJsonObject().get("url").toString().replace("\"",""));
 			    unlabeledTweets.add(tw);
 			}
 		} catch (JsonSyntaxException e) {
@@ -101,10 +101,10 @@ public class LabelTweets {
 			    String restaurant_name = rs.getObject(3).toString();
 			    Tweet tw = new Tweet();
 			    tw.setRestaurant_name(restaurant_name);
-			    tw.setMessage(json.get("text").toString());
-			    tw.setCredibility(json.get("credibility").toString());
+			    tw.setMessage(json.get("text").toString().replace("\"",""));
+			    tw.setCredibility(json.get("credibility").toString().replace("\"",""));
 			    tw.setRetweet_count(json.get("retweet_count").getAsInt());
-			    tw.setIn_reply_to_screen_name(json.get("in_reply_to_screen_name").toString());
+			    tw.setIn_reply_to_screen_name(json.get("in_reply_to_screen_name").toString().replace("\"",""));
 			 
 		//	    tw.setExpanded_url(json.get("entities").getAsJsonObject().get("urls").getAsJsonArray().g.getAsJsonObject().get("expanded_url").toString());
 		//	    System.out.println(json.get("entities").getAsJsonObject().get("urls").getAsJsonArray().size());
@@ -113,7 +113,7 @@ public class LabelTweets {
 			    {  ArrayList<String> expandedURL = new ArrayList<String>();
 			    	for(int i = 0; i <numberOfURL;i++)
 			    	{
-			    	expandedURL.add(json.get("entities").getAsJsonObject().get("urls").getAsJsonArray().get(i).getAsJsonObject().get("expanded_url").toString().replace("\"", ""));
+			    	expandedURL.add(json.get("entities").getAsJsonObject().get("urls").getAsJsonArray().get(i).getAsJsonObject().get("expanded_url").toString().replace("\"","").replace("\"", ""));
 			    	//tw.setExpanded_url(json.get("entities").getAsJsonObject().get("urls").getAsJsonArray().get(0).getAsJsonObject().get("expanded_url").toString());
 			    //	System.out.println(json.get("entities").getAsJsonObject().get("urls").getAsJsonArray().get(i).getAsJsonObject().get("expanded_url").toString().replace("\"", ""));			    
 			    	}			   
@@ -125,9 +125,9 @@ public class LabelTweets {
 			    tw.setNumber_of_followers(json.get("user").getAsJsonObject().get("followers_count").getAsInt());
 			    tw.setNumber_of_followees(json.get("user").getAsJsonObject().get("friends_count").getAsInt());
 			    tw.setIs_verified(json.get("user").getAsJsonObject().get("verified").getAsBoolean());
-			    tw.setDescription(json.get("user").getAsJsonObject().get("description").toString());
-			    tw.setScreen_name(json.get("user").getAsJsonObject().get("screen_name").toString());
-			    tw.setUser_url(json.get("user").getAsJsonObject().get("url").toString());
+			    tw.setDescription(json.get("user").getAsJsonObject().get("description").toString().replace("\"",""));
+			    tw.setScreen_name(json.get("user").getAsJsonObject().get("screen_name").toString().replace("\"",""));
+			    tw.setUser_url(json.get("user").getAsJsonObject().get("url").toString().replace("\"",""));
 			    labeledTweets.add(tw);
 			}
 		} catch (JsonSyntaxException e) {
@@ -157,16 +157,16 @@ public class LabelTweets {
 			    if(rs.getObject(3).toString().equals(restaurant_name)){
 				    Tweet tw = new Tweet();
 				    tw.setRestaurant_name(restaurant_name);
-				    tw.setMessage(json.get("text").toString());
+				    tw.setMessage(json.get("text").toString().replace("\"",""));
 				    tw.setRetweet_count(json.get("retweet_count").getAsInt());
-				    tw.setIn_reply_to_screen_name(json.get("in_reply_to_screen_name").toString());
+				    tw.setIn_reply_to_screen_name(json.get("in_reply_to_screen_name").toString().replace("\"",""));
 				    tw.setNumber_of_statuses(json.get("user").getAsJsonObject().get("statuses_count").getAsInt());
 				    tw.setNumber_of_followers(json.get("user").getAsJsonObject().get("followers_count").getAsInt());
 				    tw.setNumber_of_followees(json.get("user").getAsJsonObject().get("friends_count").getAsInt());
 				    tw.setIs_verified(json.get("user").getAsJsonObject().get("verified").getAsBoolean());
-				    tw.setDescription(json.get("user").getAsJsonObject().get("description").toString());
-				    tw.setScreen_name(json.get("user").getAsJsonObject().get("screen_name").toString());
-				    tw.setUser_url(json.get("user").getAsJsonObject().get("url").toString());
+				    tw.setDescription(json.get("user").getAsJsonObject().get("description").toString().replace("\"",""));
+				    tw.setScreen_name(json.get("user").getAsJsonObject().get("screen_name").toString().replace("\"",""));
+				    tw.setUser_url(json.get("user").getAsJsonObject().get("url").toString().replace("\"",""));
 				    // Retweet count is required
 				    unlabeledTweets.add(tw);
 			    }
@@ -193,17 +193,17 @@ public class LabelTweets {
 			    if(rs.getObject(3).toString().equals(restaurant_name)){
 				    Tweet tw = new Tweet();
 				    tw.setRestaurant_name(restaurant_name);
-				    tw.setMessage(json.get("text").toString());
-				    tw.setCredibility(json.get("credibility").toString());
+				    tw.setMessage(json.get("text").toString().replace("\"",""));
+				    tw.setCredibility(json.get("credibility").toString().replace("\"",""));
 				    tw.setRetweet_count(json.get("retweet_count").getAsInt());
-				    tw.setIn_reply_to_screen_name(json.get("in_reply_to_screen_name").toString());
+				    tw.setIn_reply_to_screen_name(json.get("in_reply_to_screen_name").toString().replace("\"",""));
 				    tw.setNumber_of_statuses(json.get("user").getAsJsonObject().get("statuses_count").getAsInt());
 				    tw.setNumber_of_followers(json.get("user").getAsJsonObject().get("followers_count").getAsInt());
 				    tw.setNumber_of_followees(json.get("user").getAsJsonObject().get("friends_count").getAsInt());
 				    tw.setIs_verified(json.get("user").getAsJsonObject().get("verified").getAsBoolean());
-				    tw.setDescription(json.get("user").getAsJsonObject().get("description").toString());
-				    tw.setScreen_name(json.get("user").getAsJsonObject().get("screen_name").toString());
-				    tw.setUser_url(json.get("user").getAsJsonObject().get("url").toString());
+				    tw.setDescription(json.get("user").getAsJsonObject().get("description").toString().replace("\"",""));
+				    tw.setScreen_name(json.get("user").getAsJsonObject().get("screen_name").toString().replace("\"",""));
+				    tw.setUser_url(json.get("user").getAsJsonObject().get("url").toString().replace("\"",""));
 				    // Retweet count is required
 				    labeledTweets.add(tw);
 			    }

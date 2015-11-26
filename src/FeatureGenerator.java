@@ -48,8 +48,8 @@ import weka.core.converters.CSVSaver;
 		userFeatures = new String [] {"NumberOfStatuses","NumberOfFollowers","NumberOfFollowees","Verified","LengthOfDescription","LengthOfScreenName", "HasURL", 
 		"RatioOfFollowersToFollowees"};
 		labelOfTweet = new FastVector(2);
-		labelOfTweet.addElement("\"C\"");
-		labelOfTweet.addElement("\"NC\"");
+		labelOfTweet.addElement("C");
+		labelOfTweet.addElement("NC");
 		zeroOne = new FastVector(2);
 		zeroOne.addElement("0");
 		zeroOne.addElement("1");
@@ -383,12 +383,12 @@ import weka.core.converters.CSVSaver;
 //	    	System.out.println(NLP.findSentiment(inputLine));
 //	    	System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
 
-	    	if(label.equals("\"C\""))
+	    	if(label.equals("C"))
 	    	{
 	    	instance.setClassValue(0);
 	    	//System.out.println("C is set");
 	    	}
-	    	else if(label.equals("\"N\"")||label.equals("\"NC\"") )
+	    	else if(label.equals("\"N\"")||label.equals("NC") )
 	    	{
 	    		instance.setClassValue(1);
 	    		//System.out.println("N is set");
