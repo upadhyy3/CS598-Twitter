@@ -81,6 +81,21 @@ public class LabelTweets {
 			    tw.setCredibility(json.get("credibility").toString());
 			    tw.setRetweet_count(json.get("retweet_count").getAsInt());
 			    tw.setIn_reply_to_screen_name(json.get("in_reply_to_screen_name").toString());
+			 
+		//	    tw.setExpanded_url(json.get("entities").getAsJsonObject().get("urls").getAsJsonArray().g.getAsJsonObject().get("expanded_url").toString());
+		//	    System.out.println(json.get("entities").getAsJsonObject().get("urls").getAsJsonArray().size());
+			    int numberOfURL = json.get("entities").getAsJsonObject().get("urls").getAsJsonArray().size();
+			    if(numberOfURL>0)
+			    {  ArrayList<String> expandedURL = new ArrayList<String>();
+			    	for(int i = 0; i <numberOfURL;i++)
+			    	{
+			    	expandedURL.add(json.get("entities").getAsJsonObject().get("urls").getAsJsonArray().get(i).getAsJsonObject().get("expanded_url").toString().replace("\"", ""));
+			    	//tw.setExpanded_url(json.get("entities").getAsJsonObject().get("urls").getAsJsonArray().get(0).getAsJsonObject().get("expanded_url").toString());
+			    //	System.out.println(json.get("entities").getAsJsonObject().get("urls").getAsJsonArray().get(i).getAsJsonObject().get("expanded_url").toString().replace("\"", ""));			    
+			    	}			   
+			       tw.setExpanded_url(expandedURL);
+			    }
+			   // System.out.println(tw.getExpanded_url());
 			    // Retweet count is required
 			    labeledTweets.add(tw);
 			}

@@ -5,5 +5,6 @@
 	<classpathentry kind="lib" path="C:/Users/admin/CS446/workspace/HW2/lib/weka.jar"/>
 	<classpathentry kind="lib" path="C:/Users/admin/Downloads/gson-2.3.1.jar"/>
 	<classpathentry kind="lib" path="C:/Users/admin/Downloads/postgresql-9.4-1204.jdbc4.jar"/>
+	<classpathentry kind="lib" path="C:/Users/admin/Downloads/guava-18.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
