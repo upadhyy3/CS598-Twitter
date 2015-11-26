@@ -30,7 +30,19 @@ public class MainApp
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new GridLayout(0, 1, 2, 2));
         textArea = new JTextArea();
-        textArea.setText(unLabeledTweets.get(count).getMessage());
+        StringBuilder str = new StringBuilder();
+        str.append("Message : " + unLabeledTweets.get(count).getMessage() + "\n");
+        str.append("User Description : " + unLabeledTweets.get(count).getDescription() + "\n");
+        str.append("Reply to Screen Name : " + unLabeledTweets.get(count).getIn_reply_to_screen_name() + "\n");
+        str.append("Number of Followees : " + unLabeledTweets.get(count).getNumber_of_followees() + "\n");
+        str.append("Number of Followers : " + unLabeledTweets.get(count).getNumber_of_followers() + "\n");
+        str.append("Number of Posts : " + unLabeledTweets.get(count).getNumber_of_statuses() + "\n");
+        str.append("Restaurant Name : " + unLabeledTweets.get(count).getRestaurant_name() + "\n");
+        str.append("Number of Retweets : " + unLabeledTweets.get(count).getRetweet_count() + "\n");
+        str.append("Screen Name : " + unLabeledTweets.get(count).getScreen_name() + "\n");
+        str.append("User URL : " + unLabeledTweets.get(count).getUser_url() + "\n");
+        str.append("Expanded URL : " + unLabeledTweets.get(count).getExpanded_url() + "\n");
+        textArea.setText(str.toString());
         textArea.setEditable(false);
         creditButton = new JButton("Credible");
         creditButton.addActionListener(new ActionListener()
@@ -41,7 +53,19 @@ public class MainApp
             	labelTweet.labelTweet(unLabeledJson.get(count), "C", unLabeledTweets.get(count).getRestaurant_name());
                 count++;
                 if(count >= unLabeledTweets.size())System.exit(0);
-                textArea.setText(unLabeledTweets.get(count).getMessage());
+                StringBuilder str = new StringBuilder();
+                str.append("Message : " + unLabeledTweets.get(count).getMessage() + "\n");
+                str.append("User Description : " + unLabeledTweets.get(count).getDescription() + "\n");
+                str.append("Reply to Screen Name : " + unLabeledTweets.get(count).getIn_reply_to_screen_name() + "\n");
+                str.append("Number of Followees : " + unLabeledTweets.get(count).getNumber_of_followees() + "\n");
+                str.append("Number of Followers : " + unLabeledTweets.get(count).getNumber_of_followers() + "\n");
+                str.append("Number of Posts : " + unLabeledTweets.get(count).getNumber_of_statuses() + "\n");
+                str.append("Restaurant Name : " + unLabeledTweets.get(count).getRestaurant_name() + "\n");
+                str.append("Number of Retweets : " + unLabeledTweets.get(count).getRetweet_count() + "\n");
+                str.append("Screen Name : " + unLabeledTweets.get(count).getScreen_name() + "\n");
+                str.append("User URL : " + unLabeledTweets.get(count).getUser_url() + "\n");
+                str.append("Expanded URL : " + unLabeledTweets.get(count).getExpanded_url() + "\n");
+                textArea.setText(str.toString());
                 frame.revalidate();
                 frame.repaint();
             }
@@ -55,7 +79,19 @@ public class MainApp
             	labelTweet.labelTweet(unLabeledJson.get(count), "NC", unLabeledTweets.get(count).getRestaurant_name());
                 count++;
                 if(count >= unLabeledTweets.size())System.exit(0);
-                textArea.setText(unLabeledTweets.get(count).getMessage());
+                StringBuilder str = new StringBuilder();
+                str.append("Message : " + unLabeledTweets.get(count).getMessage() + "\n");
+                str.append("User Description : " + unLabeledTweets.get(count).getDescription() + "\n");
+                str.append("Reply to Screen Name : " + unLabeledTweets.get(count).getIn_reply_to_screen_name() + "\n");
+                str.append("Number of Followees : " + unLabeledTweets.get(count).getNumber_of_followees() + "\n");
+                str.append("Number of Followers : " + unLabeledTweets.get(count).getNumber_of_followers() + "\n");
+                str.append("Number of Posts : " + unLabeledTweets.get(count).getNumber_of_statuses() + "\n");
+                str.append("Restaurant Name : " + unLabeledTweets.get(count).getRestaurant_name() + "\n");
+                str.append("Number of Retweets : " + unLabeledTweets.get(count).getRetweet_count() + "\n");
+                str.append("Screen Name : " + unLabeledTweets.get(count).getScreen_name() + "\n");
+                str.append("User URL : " + unLabeledTweets.get(count).getUser_url() + "\n");
+                str.append("Expanded URL : " + unLabeledTweets.get(count).getExpanded_url() + "\n");
+                textArea.setText(str.toString());
                 frame.revalidate();
                 frame.repaint();
             }

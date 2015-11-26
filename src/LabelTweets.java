@@ -36,6 +36,26 @@ public class LabelTweets {
 			    Tweet tw = new Tweet();
 			    tw.setRestaurant_name(restaurant_name);
 			    tw.setMessage(json.get("text").toString());
+			    tw.setRetweet_count(json.get("retweet_count").getAsInt());
+			    tw.setIn_reply_to_screen_name(json.get("in_reply_to_screen_name").toString());
+			 
+			    int numberOfURL = json.get("entities").getAsJsonObject().get("urls").getAsJsonArray().size();
+			    if(numberOfURL>0)
+			    {  ArrayList<String> expandedURL = new ArrayList<String>();
+			    	for(int i = 0; i <numberOfURL;i++)
+			    	{
+			    	expandedURL.add(json.get("entities").getAsJsonObject().get("urls").getAsJsonArray().get(i).getAsJsonObject().get("expanded_url").toString().replace("\"", ""));		    
+			    	}			   
+			       tw.setExpanded_url(expandedURL);
+			    }
+
+			    tw.setNumber_of_statuses(json.get("user").getAsJsonObject().get("statuses_count").getAsInt());
+			    tw.setNumber_of_followers(json.get("user").getAsJsonObject().get("followers_count").getAsInt());
+			    tw.setNumber_of_followees(json.get("user").getAsJsonObject().get("friends_count").getAsInt());
+			    tw.setIs_verified(json.get("user").getAsJsonObject().get("verified").getAsBoolean());
+			    tw.setDescription(json.get("user").getAsJsonObject().get("description").toString());
+			    tw.setScreen_name(json.get("user").getAsJsonObject().get("screen_name").toString());
+			    tw.setUser_url(json.get("user").getAsJsonObject().get("url").toString());
 			    unlabeledTweets.add(tw);
 			}
 		} catch (JsonSyntaxException e) {
@@ -78,7 +98,9 @@ public class LabelTweets {
 			while (rs.next()) {
 			    JsonParser parser = new JsonParser();
 			    JsonObject json = (JsonObject)parser.parse(((PGobject)rs.getObject(2)).toString());
+			    String restaurant_name = rs.getObject(3).toString();
 			    Tweet tw = new Tweet();
+			    tw.setRestaurant_name(restaurant_name);
 			    tw.setMessage(json.get("text").toString());
 			    tw.setCredibility(json.get("credibility").toString());
 			    tw.setRetweet_count(json.get("retweet_count").getAsInt());
