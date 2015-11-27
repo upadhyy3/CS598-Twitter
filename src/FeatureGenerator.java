@@ -7,10 +7,13 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.Scanner;
 import java.util.Set;
+import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 	
@@ -18,15 +21,10 @@ import java.util.regex.Pattern;
 
 
 	import javax.swing.plaf.synth.SynthOptionPaneUI;
-	
-
-
-
-
 
 import com.google.common.net.InternetDomainName;
 
-	import weka.core.Attribute;
+import weka.core.Attribute;
 import weka.core.FastVector;
 import weka.core.Instance;
 import weka.core.Instances;
@@ -428,6 +426,352 @@ import weka.core.converters.CSVSaver;
 		return instances;
 	
 	    }
+	    
+	//==================================== Methods for Aggregate Features ====================================
+	    
+	    private int countOccurrences(String s, char c){
+	    	int counter = 0;
+	    	for(int i=0; i<s.length(); i++){
+	    	    if(s.charAt(i) == c){
+	    	        counter++;
+	    	    }
+	    	}
+	    	return counter;
+	    }
+	    
+	    public int countTweets(String restaurant_name){
+	    	LabelTweets labelTweets = new LabelTweets();
+	    	ArrayList<Tweet> tweets = labelTweets.getLabeledTweetByRestaurantName(restaurant_name);
+	    	return tweets.size();
+	    }
+	    
+	    public double averageLength(String restaurant_name){
+	    	LabelTweets labelTweets = new LabelTweets();
+	    	ArrayList<Tweet> tweets = labelTweets.getLabeledTweetByRestaurantName(restaurant_name);
+	    	int n = tweets.size();
+	    	int sum = 0;
+	    	for(Tweet tw : tweets){
+	    		sum = sum + tw.getMessage().length();
+	    	}
+	    	return (double)sum/(double)n;
+	    }
+	    
+	    public double fractionTweetsQuestionMark(String restaurant_name){
+	    	LabelTweets labelTweets = new LabelTweets();
+	    	ArrayList<Tweet> tweets = labelTweets.getLabeledTweetByRestaurantName(restaurant_name);
+	    	int n = tweets.size();
+	    	int numberOfQuestionMark = 0;
+	    	for(Tweet tw : tweets){
+	    		if(tw.getMessage().contains("?"))numberOfQuestionMark++;
+	    	}
+	    	return (double)numberOfQuestionMark/(double)n;
+	    }
+	    
+	    public double fractionTweetsExclamationMark(String restaurant_name){
+	    	LabelTweets labelTweets = new LabelTweets();
+	    	ArrayList<Tweet> tweets = labelTweets.getLabeledTweetByRestaurantName(restaurant_name);
+	    	int n = tweets.size();
+	    	int numberOfExclamationMark = 0;
+	    	for(Tweet tw : tweets){
+	    		if(tw.getMessage().contains("!"))numberOfExclamationMark++;
+	    	}
+	    	return (double)numberOfExclamationMark/(double)n;
+	    }
+	    
+	    public double fractionTweetsMultiQuestOrExclMark(String restaurant_name){
+	    	LabelTweets labelTweets = new LabelTweets();
+	    	ArrayList<Tweet> tweets = labelTweets.getLabeledTweetByRestaurantName(restaurant_name);
+	    	int n = tweets.size();
+	    	int numberOfMultiQuestOrExclMark = 0;
+	    	for(Tweet tw : tweets){
+	    		int questMark = countOccurrences(tw.getMessage(), '?'); 
+	    		int exclMark = countOccurrences(tw.getMessage(), '!');
+	    		if((questMark > 1) || (exclMark > 1))numberOfMultiQuestOrExclMark++;
+	    	}
+	    	return (double)numberOfMultiQuestOrExclMark/(double)n;
+	    }
+	    
+	    public double fractionTweets30PctUppercase(String restaurant_name){
+	    	LabelTweets labelTweets = new LabelTweets();
+	    	ArrayList<Tweet> tweets = labelTweets.getLabeledTweetByRestaurantName(restaurant_name);
+	    	int n = tweets.size();
+	    	int numberOfTweetsUpper = 0;
+	    	for(Tweet tw : tweets){
+	    		int countUpper = 0;
+	    		for(int i=0;i<tw.getMessage().length();i++){
+	    			if(Character.isUpperCase(tw.getMessage().charAt(i)))countUpper++;
+	    		}
+	    		double percentUpper = (double)countUpper/(double)tw.getMessage().length();
+	    		if(percentUpper > 0.3)numberOfTweetsUpper++;
+	    	}
+	    	return (double)numberOfTweetsUpper/(double)n;
+	    }
+	    
+	    public double fractionTweetsURL(String restaurant_name){
+	    	LabelTweets labelTweets = new LabelTweets();
+	    	ArrayList<Tweet> tweets = labelTweets.getLabeledTweetByRestaurantName(restaurant_name);
+	    	int n = tweets.size();
+	    	int numberOfTweetsURL = 0;
+	    	for(Tweet tw : tweets){
+	    		if(tw.getExpanded_url().size() > 0)numberOfTweetsURL++;
+	    	}
+	    	return (double)numberOfTweetsURL/(double)n;
+	    }
+	    
+	    public double fractionTweetsUserMention(String restaurant_name){
+	    	LabelTweets labelTweets = new LabelTweets();
+	    	ArrayList<Tweet> tweets = labelTweets.getLabeledTweetByRestaurantName(restaurant_name);
+	    	int n = tweets.size();
+	    	int numberOfTweetsUserMention = 0;
+	    	for(Tweet tw : tweets){
+	    		if(tw.getUser_mention().size() > 0)numberOfTweetsUserMention++;
+	    	}
+	    	return (double)numberOfTweetsUserMention/(double)n;
+	    }
+	    
+	    public double fractionTweetsHashtag(String restaurant_name){
+	    	LabelTweets labelTweets = new LabelTweets();
+	    	ArrayList<Tweet> tweets = labelTweets.getLabeledTweetByRestaurantName(restaurant_name);
+	    	int n = tweets.size();
+	    	int numberOfTweetsHashtag = 0;
+	    	for(Tweet tw : tweets){
+	    		if(tw.getHashtag().size() > 0)numberOfTweetsHashtag++;
+	    	}
+	    	return (double)numberOfTweetsHashtag/(double)n;
+	    }
+	    
+	    public double fractionRetweets(String restaurant_name){
+	    	LabelTweets labelTweets = new LabelTweets();
+	    	ArrayList<Tweet> tweets = labelTweets.getLabeledTweetByRestaurantName(restaurant_name);
+	    	int n = tweets.size();
+	    	int numberOfRetweet = 0;
+	    	for(Tweet tw : tweets){
+	    		if(tw.getRetweet_count() > 0)numberOfRetweet++;
+	    	}
+	    	return (double)numberOfRetweet/(double)n;
+	    }
+	    
+	    public int countDistinctExpandedUrl(String restaurant_name){
+	    	LabelTweets labelTweets = new LabelTweets();
+	    	ArrayList<Tweet> tweets = labelTweets.getLabeledTweetByRestaurantName(restaurant_name);
+	    	Set<String> s = new TreeSet<String>();
+	    	for(Tweet tw : tweets){
+	    		ArrayList<String> expandedUrl = tw.getExpanded_url();
+	    		for(String url : expandedUrl){
+	    			s.add(url);
+	    		}
+	    	}
+	    	return s.size();
+	    }
+	    
+	    public double shareMostFreqExpandedUrl(String restaurant_name){
+	    	LabelTweets labelTweets = new LabelTweets();
+	    	ArrayList<Tweet> tweets = labelTweets.getLabeledTweetByRestaurantName(restaurant_name);
+	    	HashMap<String, Integer> map = new HashMap<String, Integer>();
+	    	int n = 0;
+	    	for(Tweet tw : tweets){
+	    		ArrayList<String> expandedUrl = tw.getExpanded_url();
+	    		for(String url : expandedUrl){
+	    			n++;
+	    			if(map.containsKey(url)){
+	    				map.put(url, map.get(url) + 1);
+	    			}else{
+	    				map.put(url,1);
+	    			}
+	    		}
+	    	}
+	    	Entry<String, Integer> maxEntry = null;
+    		for(Entry<String, Integer> entry : map.entrySet()){
+    		    if (maxEntry == null || entry.getValue().compareTo(maxEntry.getValue()) > 0){
+    		        maxEntry = entry;
+    		    }
+    		}
+	    	return (double)maxEntry.getValue()/(double)n;
+	    }
+	    
+	    public int countDistinctHashtag(String restaurant_name){
+	    	LabelTweets labelTweets = new LabelTweets();
+	    	ArrayList<Tweet> tweets = labelTweets.getLabeledTweetByRestaurantName(restaurant_name);
+	    	Set<String> s = new TreeSet<String>();
+	    	for(Tweet tw : tweets){
+	    		ArrayList<String> hashtag = tw.getHashtag();
+	    		for(String text : hashtag){
+	    			s.add(text);
+	    		}
+	    	}
+	    	return s.size();
+	    }
+	    
+	    public double shareMostFreqHashtag(String restaurant_name){
+	    	LabelTweets labelTweets = new LabelTweets();
+	    	ArrayList<Tweet> tweets = labelTweets.getLabeledTweetByRestaurantName(restaurant_name);
+	    	HashMap<String, Integer> map = new HashMap<String, Integer>();
+	    	int n = 0;
+	    	for(Tweet tw : tweets){
+	    		ArrayList<String> hashtag = tw.getHashtag();
+	    		for(String text : hashtag){
+	    			n++;
+	    			if(map.containsKey(text)){
+	    				map.put(text, map.get(text) + 1);
+	    			}else{
+	    				map.put(text,1);
+	    			}
+	    		}
+	    	}
+	    	Entry<String, Integer> maxEntry = null;
+    		for(Entry<String, Integer> entry : map.entrySet()){
+    		    if (maxEntry == null || entry.getValue().compareTo(maxEntry.getValue()) > 0){
+    		        maxEntry = entry;
+    		    }
+    		}
+	    	return (double)maxEntry.getValue()/(double)n;
+	    }
+	    
+	    public int countDistinctUserMention(String restaurant_name){
+	    	LabelTweets labelTweets = new LabelTweets();
+	    	ArrayList<Tweet> tweets = labelTweets.getLabeledTweetByRestaurantName(restaurant_name);
+	    	Set<String> s = new TreeSet<String>();
+	    	for(Tweet tw : tweets){
+	    		ArrayList<String> userMention = tw.getUser_mention();
+	    		for(String strId : userMention){
+	    			s.add(strId);
+	    		}
+	    	}
+	    	return s.size();
+	    }
+	    
+	    public double shareMostFreqUserMention(String restaurant_name){
+	    	LabelTweets labelTweets = new LabelTweets();
+	    	ArrayList<Tweet> tweets = labelTweets.getLabeledTweetByRestaurantName(restaurant_name);
+	    	HashMap<String, Integer> map = new HashMap<String, Integer>();
+	    	int n = 0;
+	    	for(Tweet tw : tweets){
+	    		ArrayList<String> userMention = tw.getUser_mention();
+	    		for(String strId : userMention){
+	    			n++;
+	    			if(map.containsKey(strId)){
+	    				map.put(strId, map.get(strId) + 1);
+	    			}else{
+	    				map.put(strId,1);
+	    			}
+	    		}
+	    	}
+	    	Entry<String, Integer> maxEntry = null;
+    		for(Entry<String, Integer> entry : map.entrySet()){
+    		    if (maxEntry == null || entry.getValue().compareTo(maxEntry.getValue()) > 0){
+    		        maxEntry = entry;
+    		    }
+    		}
+	    	return (double)maxEntry.getValue()/(double)n;
+	    }
+	    
+	    public int countDistinctAuthor(String restaurant_name){
+	    	LabelTweets labelTweets = new LabelTweets();
+	    	ArrayList<Tweet> tweets = labelTweets.getLabeledTweetByRestaurantName(restaurant_name);
+	    	Set<String> s = new TreeSet<String>();
+	    	for(Tweet tw : tweets){
+	    		s.add(tw.getScreen_name());
+	    	}
+	    	return s.size();
+	    }
+	    
+	    public double shareMostFreqAuthor(String restaurant_name){
+	    	LabelTweets labelTweets = new LabelTweets();
+	    	ArrayList<Tweet> tweets = labelTweets.getLabeledTweetByRestaurantName(restaurant_name);
+	    	HashMap<String, Integer> map = new HashMap<String, Integer>();
+	    	int n = 0;
+	    	for(Tweet tw : tweets){
+	    		String screenName = tw.getScreen_name();
+    			n++;
+    			if(map.containsKey(screenName)){
+    				map.put(screenName, map.get(screenName) + 1);
+    			}else{
+    				map.put(screenName,1);
+    			}
+	    	}
+	    	Entry<String, Integer> maxEntry = null;
+    		for(Entry<String, Integer> entry : map.entrySet()){
+    		    if (maxEntry == null || entry.getValue().compareTo(maxEntry.getValue()) > 0){
+    		        maxEntry = entry;
+    		    }
+    		}
+	    	return (double)maxEntry.getValue()/(double)n;
+	    }
+	    
+	    public double authorAverageStatusesCount(String restaurant_name){
+	    	LabelTweets labelTweets = new LabelTweets();
+	    	ArrayList<Tweet> tweets = labelTweets.getLabeledTweetByRestaurantName(restaurant_name);
+	    	Set<String> author = new TreeSet<String>();
+	    	int sum = 0;
+	    	for(Tweet tw : tweets){
+	    		if(!author.contains(tw.getScreen_name())){
+	    			sum = sum + tw.getNumber_of_statuses();
+	    			author.add(tw.getScreen_name());
+	    		}
+	    	}
+	    	return (double)sum/(double)author.size();
+	    }
+	    
+	    public double authorAverageCountFollowees(String restaurant_name){
+	    	LabelTweets labelTweets = new LabelTweets();
+	    	ArrayList<Tweet> tweets = labelTweets.getLabeledTweetByRestaurantName(restaurant_name);
+	    	Set<String> author = new TreeSet<String>();
+	    	int sum = 0;
+	    	for(Tweet tw : tweets){
+	    		if(!author.contains(tw.getScreen_name())){
+	    			sum = sum + tw.getNumber_of_followers();
+	    			author.add(tw.getScreen_name());
+	    		}
+	    	}
+	    	return (double)sum/(double)author.size();
+	    }
+	    
+	    public double authorAverageCountFriends(String restaurant_name){
+	    	LabelTweets labelTweets = new LabelTweets();
+	    	ArrayList<Tweet> tweets = labelTweets.getLabeledTweetByRestaurantName(restaurant_name);
+	    	Set<String> author = new TreeSet<String>();
+	    	int sum = 0;
+	    	for(Tweet tw : tweets){
+	    		if(!author.contains(tw.getScreen_name())){
+	    			sum = sum + tw.getNumber_of_followees();
+	    			author.add(tw.getScreen_name());
+	    		}
+	    	}
+	    	return (double)sum/(double)author.size();
+	    }
+	    
+	    public double authorFractionIsVerified(String restaurant_name){
+	    	LabelTweets labelTweets = new LabelTweets();
+	    	ArrayList<Tweet> tweets = labelTweets.getLabeledTweetByRestaurantName(restaurant_name);
+	    	int numTweetVerified = 0;
+	    	for(Tweet tw : tweets){
+	    		if(tw.isIs_verified())numTweetVerified++;
+	    	}
+	    	return (double)numTweetVerified/(double)tweets.size();
+	    }
+	    
+	    public double authorFractionHasDescription(String restaurant_name){
+	    	LabelTweets labelTweets = new LabelTweets();
+	    	ArrayList<Tweet> tweets = labelTweets.getLabeledTweetByRestaurantName(restaurant_name);
+	    	int numTweetHasDesc = 0;
+	    	for(Tweet tw : tweets){
+	    		if(!"null".equals(tw.getDescription()))numTweetHasDesc++;
+	    	}
+	    	return (double)numTweetHasDesc/(double)tweets.size();
+	    }
+	    
+	    public double authorFractionHasUrl(String restaurant_name){
+	    	LabelTweets labelTweets = new LabelTweets();
+	    	ArrayList<Tweet> tweets = labelTweets.getLabeledTweetByRestaurantName(restaurant_name);
+	    	int numTweetHasUrl = 0;
+	    	for(Tweet tw : tweets){
+	    		if(!"null".equals(tw.getUser_url()))numTweetHasUrl++;
+	    	}
+	    	return (double)numTweetHasUrl/(double)tweets.size();
+	    }
+	    
+	  //==================================== End of Methods for Aggregate Features ====================================
+	   
 	}
 	
 	

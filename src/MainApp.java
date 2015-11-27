@@ -41,7 +41,18 @@ public class MainApp
         str.append("Number of Retweets : " + unLabeledTweets.get(count).getRetweet_count() + "\n");
         str.append("Screen Name : " + unLabeledTweets.get(count).getScreen_name() + "\n");
         str.append("User URL : " + unLabeledTweets.get(count).getUser_url() + "\n");
-        str.append("Expanded URL : " + unLabeledTweets.get(count).getExpanded_url() + "\n");
+        str.append("Expanded URL :");
+        ArrayList<String> expandedUrl = unLabeledTweets.get(count).getExpanded_url();
+        for(String url : expandedUrl){
+        	str.append(" " + url);
+        }
+        str.append("\n");
+        str.append("Hashtag :");
+        ArrayList<String> hashtag = unLabeledTweets.get(count).getHashtag();
+        for(String text : hashtag){
+        	str.append(" " + text);
+        }
+        str.append("\n");
         textArea.setText(str.toString());
         textArea.setEditable(false);
         creditButton = new JButton("Credible");
@@ -64,7 +75,18 @@ public class MainApp
                 str.append("Number of Retweets : " + unLabeledTweets.get(count).getRetweet_count() + "\n");
                 str.append("Screen Name : " + unLabeledTweets.get(count).getScreen_name() + "\n");
                 str.append("User URL : " + unLabeledTweets.get(count).getUser_url() + "\n");
-                str.append("Expanded URL : " + unLabeledTweets.get(count).getExpanded_url() + "\n");
+                str.append("Expanded URL :");
+                ArrayList<String> expandedUrl = unLabeledTweets.get(count).getExpanded_url();
+                for(String url : expandedUrl){
+                	str.append(" " + url);
+                }
+                str.append("\n");
+                str.append("Hashtag :");
+                ArrayList<String> hashtag = unLabeledTweets.get(count).getHashtag();
+                for(String text : hashtag){
+                	str.append(" " + text);
+                }
+                str.append("\n");
                 textArea.setText(str.toString());
                 frame.revalidate();
                 frame.repaint();
@@ -90,7 +112,18 @@ public class MainApp
                 str.append("Number of Retweets : " + unLabeledTweets.get(count).getRetweet_count() + "\n");
                 str.append("Screen Name : " + unLabeledTweets.get(count).getScreen_name() + "\n");
                 str.append("User URL : " + unLabeledTweets.get(count).getUser_url() + "\n");
-                str.append("Expanded URL : " + unLabeledTweets.get(count).getExpanded_url() + "\n");
+                str.append("Expanded URL :");
+                ArrayList<String> expandedUrl = unLabeledTweets.get(count).getExpanded_url();
+                for(String url : expandedUrl){
+                	str.append(" " + url);
+                }
+                str.append("\n");
+                str.append("Hashtag :");
+                ArrayList<String> hashtag = unLabeledTweets.get(count).getHashtag();
+                for(String text : hashtag){
+                	str.append(" " + text);
+                }
+                str.append("\n");
                 textArea.setText(str.toString());
                 frame.revalidate();
                 frame.repaint();

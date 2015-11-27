@@ -40,14 +40,16 @@ public class LabelTweets {
 			    tw.setIn_reply_to_screen_name(json.get("in_reply_to_screen_name").toString().replace("\"",""));
 			 
 			    int numberOfURL = json.get("entities").getAsJsonObject().get("urls").getAsJsonArray().size();
+			    
+			    ArrayList<String> expandedURL = new ArrayList<String>();
 			    if(numberOfURL>0)
-			    {  ArrayList<String> expandedURL = new ArrayList<String>();
+			    {  
 			    	for(int i = 0; i <numberOfURL;i++)
 			    	{
 			    	expandedURL.add(json.get("entities").getAsJsonObject().get("urls").getAsJsonArray().get(i).getAsJsonObject().get("expanded_url").toString().replace("\"","").replace("\"", ""));		    
 			    	}			   
-			       tw.setExpanded_url(expandedURL);
 			    }
+			    tw.setExpanded_url(expandedURL);
 
 			    tw.setNumber_of_statuses(json.get("user").getAsJsonObject().get("statuses_count").getAsInt());
 			    tw.setNumber_of_followers(json.get("user").getAsJsonObject().get("followers_count").getAsInt());
@@ -56,6 +58,29 @@ public class LabelTweets {
 			    tw.setDescription(json.get("user").getAsJsonObject().get("description").toString().replace("\"",""));
 			    tw.setScreen_name(json.get("user").getAsJsonObject().get("screen_name").toString().replace("\"",""));
 			    tw.setUser_url(json.get("user").getAsJsonObject().get("url").toString().replace("\"",""));
+			    
+			    int numberUserMention = json.get("entities").getAsJsonObject().get("user_mentions").getAsJsonArray().size();
+			    ArrayList<String> userMention = new ArrayList<String>();
+			    if(numberUserMention>0)
+			    {
+			    	for(int i = 0; i <numberUserMention;i++)
+			    	{
+			    		userMention.add(json.get("entities").getAsJsonObject().get("user_mentions").getAsJsonArray().get(i).getAsJsonObject().get("id_str").toString().replace("\"","").replace("\"", ""));		    
+			    	}			   
+			    }
+			    tw.setUser_mention(userMention);
+			    
+			    int numberHashtag = json.get("entities").getAsJsonObject().get("hashtags").getAsJsonArray().size();
+			    ArrayList<String> hashtag = new ArrayList<String>();
+			    if(numberHashtag>0)
+			    {
+			    	for(int i = 0; i <numberHashtag;i++)
+			    	{
+			    		hashtag.add(json.get("entities").getAsJsonObject().get("hashtags").getAsJsonArray().get(i).getAsJsonObject().get("text").toString().replace("\"","").replace("\"", ""));		    
+			    	}			   
+			    }
+			    tw.setHashtag(hashtag);
+			    
 			    unlabeledTweets.add(tw);
 			}
 		} catch (JsonSyntaxException e) {
@@ -109,16 +134,15 @@ public class LabelTweets {
 		//	    tw.setExpanded_url(json.get("entities").getAsJsonObject().get("urls").getAsJsonArray().g.getAsJsonObject().get("expanded_url").toString());
 		//	    System.out.println(json.get("entities").getAsJsonObject().get("urls").getAsJsonArray().size());
 			    int numberOfURL = json.get("entities").getAsJsonObject().get("urls").getAsJsonArray().size();
+			    ArrayList<String> expandedURL = new ArrayList<String>();
 			    if(numberOfURL>0)
-			    {  ArrayList<String> expandedURL = new ArrayList<String>();
+			    {  
 			    	for(int i = 0; i <numberOfURL;i++)
 			    	{
-			    	expandedURL.add(json.get("entities").getAsJsonObject().get("urls").getAsJsonArray().get(i).getAsJsonObject().get("expanded_url").toString().replace("\"","").replace("\"", ""));
-			    	//tw.setExpanded_url(json.get("entities").getAsJsonObject().get("urls").getAsJsonArray().get(0).getAsJsonObject().get("expanded_url").toString());
-			    //	System.out.println(json.get("entities").getAsJsonObject().get("urls").getAsJsonArray().get(i).getAsJsonObject().get("expanded_url").toString().replace("\"", ""));			    
+			    	expandedURL.add(json.get("entities").getAsJsonObject().get("urls").getAsJsonArray().get(i).getAsJsonObject().get("expanded_url").toString().replace("\"","").replace("\"", ""));		    
 			    	}			   
-			       tw.setExpanded_url(expandedURL);
 			    }
+			    tw.setExpanded_url(expandedURL);
 			   // System.out.println(tw.getExpanded_url());
 			    // Retweet count is required
 			    tw.setNumber_of_statuses(json.get("user").getAsJsonObject().get("statuses_count").getAsInt());
@@ -128,6 +152,29 @@ public class LabelTweets {
 			    tw.setDescription(json.get("user").getAsJsonObject().get("description").toString().replace("\"",""));
 			    tw.setScreen_name(json.get("user").getAsJsonObject().get("screen_name").toString().replace("\"",""));
 			    tw.setUser_url(json.get("user").getAsJsonObject().get("url").toString().replace("\"",""));
+			    
+			    int numberUserMention = json.get("entities").getAsJsonObject().get("user_mentions").getAsJsonArray().size();
+			    ArrayList<String> userMention = new ArrayList<String>();
+			    if(numberUserMention>0)
+			    {
+			    	for(int i = 0; i <numberUserMention;i++)
+			    	{
+			    		userMention.add(json.get("entities").getAsJsonObject().get("user_mentions").getAsJsonArray().get(i).getAsJsonObject().get("id_str").toString().replace("\"","").replace("\"", ""));		    
+			    	}			   
+			    }
+			    tw.setUser_mention(userMention);
+			    
+			    int numberHashtag = json.get("entities").getAsJsonObject().get("hashtags").getAsJsonArray().size();
+			    ArrayList<String> hashtag = new ArrayList<String>();
+			    if(numberHashtag>0)
+			    {
+			    	for(int i = 0; i <numberHashtag;i++)
+			    	{
+			    		hashtag.add(json.get("entities").getAsJsonObject().get("hashtags").getAsJsonArray().get(i).getAsJsonObject().get("text").toString().replace("\"","").replace("\"", ""));		    
+			    	}			   
+			    }
+			    tw.setHashtag(hashtag);
+			    
 			    labeledTweets.add(tw);
 			}
 		} catch (JsonSyntaxException e) {
@@ -160,6 +207,18 @@ public class LabelTweets {
 				    tw.setMessage(json.get("text").toString().replace("\"",""));
 				    tw.setRetweet_count(json.get("retweet_count").getAsInt());
 				    tw.setIn_reply_to_screen_name(json.get("in_reply_to_screen_name").toString().replace("\"",""));
+				    
+				    int numberOfURL = json.get("entities").getAsJsonObject().get("urls").getAsJsonArray().size();
+				    ArrayList<String> expandedURL = new ArrayList<String>();
+				    if(numberOfURL>0)
+				    {  
+				    	for(int i = 0; i <numberOfURL;i++)
+				    	{
+				    	expandedURL.add(json.get("entities").getAsJsonObject().get("urls").getAsJsonArray().get(i).getAsJsonObject().get("expanded_url").toString().replace("\"","").replace("\"", ""));		    
+				    	}			   
+				    }
+				    tw.setExpanded_url(expandedURL);
+				    
 				    tw.setNumber_of_statuses(json.get("user").getAsJsonObject().get("statuses_count").getAsInt());
 				    tw.setNumber_of_followers(json.get("user").getAsJsonObject().get("followers_count").getAsInt());
 				    tw.setNumber_of_followees(json.get("user").getAsJsonObject().get("friends_count").getAsInt());
@@ -167,6 +226,29 @@ public class LabelTweets {
 				    tw.setDescription(json.get("user").getAsJsonObject().get("description").toString().replace("\"",""));
 				    tw.setScreen_name(json.get("user").getAsJsonObject().get("screen_name").toString().replace("\"",""));
 				    tw.setUser_url(json.get("user").getAsJsonObject().get("url").toString().replace("\"",""));
+				    
+				    int numberUserMention = json.get("entities").getAsJsonObject().get("user_mentions").getAsJsonArray().size();
+				    ArrayList<String> userMention = new ArrayList<String>();
+				    if(numberUserMention>0)
+				    {
+				    	for(int i = 0; i <numberUserMention;i++)
+				    	{
+				    		userMention.add(json.get("entities").getAsJsonObject().get("user_mentions").getAsJsonArray().get(i).getAsJsonObject().get("id_str").toString().replace("\"","").replace("\"", ""));		    
+				    	}			   
+				    }
+				    tw.setUser_mention(userMention);
+				    
+				    int numberHashtag = json.get("entities").getAsJsonObject().get("hashtags").getAsJsonArray().size();
+				    ArrayList<String> hashtag = new ArrayList<String>();
+				    if(numberHashtag>0)
+				    {
+				    	for(int i = 0; i <numberHashtag;i++)
+				    	{
+				    		hashtag.add(json.get("entities").getAsJsonObject().get("hashtags").getAsJsonArray().get(i).getAsJsonObject().get("text").toString().replace("\"","").replace("\"", ""));		    
+				    	}			   
+				    }
+				    tw.setHashtag(hashtag);
+				    
 				    // Retweet count is required
 				    unlabeledTweets.add(tw);
 			    }
@@ -197,6 +279,18 @@ public class LabelTweets {
 				    tw.setCredibility(json.get("credibility").toString().replace("\"",""));
 				    tw.setRetweet_count(json.get("retweet_count").getAsInt());
 				    tw.setIn_reply_to_screen_name(json.get("in_reply_to_screen_name").toString().replace("\"",""));
+				    
+				    int numberOfURL = json.get("entities").getAsJsonObject().get("urls").getAsJsonArray().size();
+				    ArrayList<String> expandedURL = new ArrayList<String>();
+				    if(numberOfURL>0)
+				    {  
+				    	for(int i = 0; i <numberOfURL;i++)
+				    	{
+				    	expandedURL.add(json.get("entities").getAsJsonObject().get("urls").getAsJsonArray().get(i).getAsJsonObject().get("expanded_url").toString().replace("\"","").replace("\"", ""));		    
+				    	}			   
+				    }
+				    tw.setExpanded_url(expandedURL);
+				    
 				    tw.setNumber_of_statuses(json.get("user").getAsJsonObject().get("statuses_count").getAsInt());
 				    tw.setNumber_of_followers(json.get("user").getAsJsonObject().get("followers_count").getAsInt());
 				    tw.setNumber_of_followees(json.get("user").getAsJsonObject().get("friends_count").getAsInt());
@@ -204,6 +298,29 @@ public class LabelTweets {
 				    tw.setDescription(json.get("user").getAsJsonObject().get("description").toString().replace("\"",""));
 				    tw.setScreen_name(json.get("user").getAsJsonObject().get("screen_name").toString().replace("\"",""));
 				    tw.setUser_url(json.get("user").getAsJsonObject().get("url").toString().replace("\"",""));
+				    
+				    int numberUserMention = json.get("entities").getAsJsonObject().get("user_mentions").getAsJsonArray().size();
+				    ArrayList<String> userMention = new ArrayList<String>();
+				    if(numberUserMention>0)
+				    {
+				    	for(int i = 0; i <numberUserMention;i++)
+				    	{
+				    		userMention.add(json.get("entities").getAsJsonObject().get("user_mentions").getAsJsonArray().get(i).getAsJsonObject().get("id_str").toString().replace("\"","").replace("\"", ""));		    
+				    	}			   
+				    }
+				    tw.setUser_mention(userMention);
+				    
+				    int numberHashtag = json.get("entities").getAsJsonObject().get("hashtags").getAsJsonArray().size();
+				    ArrayList<String> hashtag = new ArrayList<String>();
+				    if(numberHashtag>0)
+				    {
+				    	for(int i = 0; i <numberHashtag;i++)
+				    	{
+				    		hashtag.add(json.get("entities").getAsJsonObject().get("hashtags").getAsJsonArray().get(i).getAsJsonObject().get("text").toString().replace("\"","").replace("\"", ""));		    
+				    	}			   
+				    }
+				    tw.setHashtag(hashtag);
+				    
 				    // Retweet count is required
 				    labeledTweets.add(tw);
 			    }
@@ -227,27 +344,52 @@ public class LabelTweets {
 //		core.labelTweet(jsonArray.get(0),"C");
 //		core.labelTweet(jsonArray.get(1),"NC");
 //		core.labelTweet(jsonArray.get(2),"C");
-		ArrayList<Tweet> labeledTweets = core.getLabeledTweetByRestaurantName("HowellsandHood");
-		for(Tweet tw : labeledTweets){
-			System.out.println(tw.getRestaurant_name());
-			System.out.println(tw.getMessage());
-			System.out.println(tw.getCredibility());
-			System.out.println(tw.getNumber_of_followees());
-			System.out.println(tw.getNumber_of_followers());
-			System.out.println(tw.getNumber_of_statuses());
-			System.out.println(tw.getDescription());
-			System.out.println(tw.getScreen_name());
-			System.out.println(tw.isIs_verified());
-			System.out.println(tw.getUser_url());
-		}
+//		ArrayList<Tweet> labeledTweets = core.getLabeledTweetByRestaurantName("HowellsandHood");
+//		for(Tweet tw : labeledTweets){
+//			System.out.println(tw.getRestaurant_name());
+//			System.out.println(tw.getMessage());
+//			System.out.println(tw.getCredibility());
+//			System.out.println(tw.getNumber_of_followees());
+//			System.out.println(tw.getNumber_of_followers());
+//			System.out.println(tw.getNumber_of_statuses());
+//			System.out.println(tw.getDescription());
+//			System.out.println(tw.getScreen_name());
+//			System.out.println(tw.isIs_verified());
+//			System.out.println(tw.getUser_url());
+//		}
 		FeatureGenerator feature = new FeatureGenerator();
 	
-		try {
-			feature.generateFeature();
-			DecisionTreeClassifier.TreeClassifier();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+//		try {
+//			feature.generateFeature();
+//			DecisionTreeClassifier.TreeClassifier();
+//		} catch (Exception e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+		
+		System.out.println(feature.authorAverageCountFollowees("HowellsandHood"));
+		System.out.println(feature.authorAverageCountFriends("HowellsandHood"));
+		System.out.println(feature.authorAverageStatusesCount("HowellsandHood"));
+		System.out.println(feature.authorFractionHasDescription("HowellsandHood"));
+		System.out.println(feature.authorFractionHasUrl("HowellsandHood"));
+		System.out.println(feature.authorFractionIsVerified("HowellsandHood"));
+		System.out.println(feature.averageLength("HowellsandHood"));
+		System.out.println(feature.countDistinctAuthor("HowellsandHood"));
+		System.out.println(feature.countDistinctExpandedUrl("HowellsandHood"));
+		System.out.println(feature.countDistinctHashtag("HowellsandHood"));
+		System.out.println(feature.countDistinctUserMention("HowellsandHood"));
+		System.out.println(feature.countTweets("HowellsandHood"));
+		System.out.println(feature.fractionRetweets("HowellsandHood"));
+		System.out.println(feature.fractionTweets30PctUppercase("HowellsandHood"));
+		System.out.println(feature.fractionTweetsExclamationMark("HowellsandHood"));
+		System.out.println(feature.fractionTweetsQuestionMark("HowellsandHood"));
+		System.out.println(feature.fractionTweetsURL("HowellsandHood"));
+		System.out.println(feature.fractionTweetsUserMention("HowellsandHood"));
+		System.out.println(feature.fractionTweetsMultiQuestOrExclMark("HowellsandHood"));
+		System.out.println(feature.fractionTweetsHashtag("HowellsandHood"));
+		System.out.println(feature.shareMostFreqAuthor("HowellsandHood"));
+		System.out.println(feature.shareMostFreqExpandedUrl("HowellsandHood"));
+		System.out.println(feature.shareMostFreqHashtag("HowellsandHood"));
+		System.out.println(feature.shareMostFreqUserMention("HowellsandHood"));
 	}
 }

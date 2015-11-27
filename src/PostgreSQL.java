@@ -23,7 +23,7 @@ public class PostgreSQL {
 	private Connection connection;
 
 	public PostgreSQL (){
-		System.out.println("-------- PostgreSQL JDBC Connection Testing ------------");
+		//System.out.println("-------- PostgreSQL JDBC Connection Testing ------------");
 		
 		try {
 			Class.forName("org.postgresql.Driver");
@@ -33,7 +33,7 @@ public class PostgreSQL {
 			return;
 		}
 
-		System.out.println("PostgreSQL JDBC Driver Registered!");
+		//System.out.println("PostgreSQL JDBC Driver Registered!");
 
 		this.connection = null;
 
@@ -46,7 +46,7 @@ public class PostgreSQL {
 		}
 
 		if (this.connection != null) {
-			System.out.println("You made it, take control your database now!");
+			//System.out.println("You made it, take control your database now!");
 		} else {
 			System.out.println("Failed to make connection!");
 		}

@@ -15,6 +15,8 @@ public class Tweet {
 	private String description;
 	private String screen_name;
 	private String user_url;
+	private ArrayList<String> user_mention;
+	private ArrayList<String> hashtag;
 	
 	public void setRetweet_count(int retweet_count) {
 		this.retweet_count = retweet_count;
@@ -125,5 +127,20 @@ public class Tweet {
 		this.user_url = user_url;
 	}
 
+	public ArrayList<String> getUser_mention() {
+		return user_mention;
+	}
+
+	public void setUser_mention(ArrayList<String> user_mention) {
+		this.user_mention = user_mention;
+	}
+
+	public ArrayList<String> getHashtag() {
+		return hashtag;
+	}
+
+	public void setHashtag(ArrayList<String> hashtag) {
+		this.hashtag = hashtag;
+	}
 
 }
