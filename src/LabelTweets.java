@@ -359,13 +359,13 @@ public class LabelTweets {
 //		}
 		FeatureGenerator feature = new FeatureGenerator();
 	
-//		try {
-//			feature.generateFeature();
-//			DecisionTreeClassifier.TreeClassifier();
-//		} catch (Exception e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
+		try {
+			feature.generateFeature();
+			DecisionTreeClassifier.TreeClassifier();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		System.out.println(feature.authorAverageCountFollowees("HowellsandHood"));
 		System.out.println(feature.authorAverageCountFriends("HowellsandHood"));

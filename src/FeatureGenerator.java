@@ -44,7 +44,7 @@ import weka.core.converters.CSVSaver;
 		MSGfeatures = new String [] {"LengthOfMessage","LengthOfWords","CountOfUpperCaseCharacters","ContainsHashtag","NumberOfUniqueCharacters"
 		,"Retweet_Count","tweetIsaReply","numberOf@", "hasURL","NumberOfURL","UseOfURLShotner"};
 		userFeatures = new String [] {"NumberOfStatuses","NumberOfFollowers","NumberOfFollowees","Verified","LengthOfDescription","LengthOfScreenName", "HasURL", 
-		"RatioOfFollowersToFollowees"};
+		"RatioOfFollowersToFollowees", "NumberOfPositiveWord", "NumberOfNegativeWord", "SWNSentimentScore", "NounCount", "PronounCount"};
 		labelOfTweet = new FastVector(2);
 		labelOfTweet.addElement("C");
 		labelOfTweet.addElement("NC");
@@ -371,6 +371,31 @@ import weka.core.converters.CSVSaver;
 			
 			//Ratio number of followers to followees
 			instance.setValue(instances.attribute(18),((double)number_of_followers)/((double)number_of_followees));
+			
+			SWN3 swn = new SWN3();
+			swn.classifytweet(inputLine);
+			
+			//Number of Positive Word
+			instance.setValue(instances.attribute(19), (double)swn.getCountofPositiveWords());
+			
+			//Number of Negative Word
+			instance.setValue(instances.attribute(20), (double)swn.getCountofNegativeWords());
+			
+			//SWN Sentiment Score
+			instance.setValue(instances.attribute(21), (double)swn.classifytweet(inputLine));
+			
+			try {
+				List<Integer> CountOfNounAndPronoun = POSTagger.POStagger(inputLine);
+				
+				//Noun Count
+				instance.setValue(instances.attribute(22), (double)CountOfNounAndPronoun.get(0));
+				
+				//Pronoun Count
+				instance.setValue(instances.attribute(23), (double)CountOfNounAndPronoun.get(1));
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 	    	
 			//==================================== End of userFeatures =======================================
 
