@@ -81,6 +81,17 @@ public class LabelTweets {
 			    }
 			    tw.setHashtag(hashtag);
 			    
+			    try{
+			    	JsonObject scopes = json.get("scopes").getAsJsonObject();
+			    	if(scopes == null){
+				    	tw.setPromoted(false);
+				    }else{
+				    	tw.setPromoted(true);
+				    }
+			    }catch (Exception e){
+			    	
+			    }
+			    
 			    unlabeledTweets.add(tw);
 			}
 		} catch (JsonSyntaxException e) {
@@ -175,6 +186,17 @@ public class LabelTweets {
 			    }
 			    tw.setHashtag(hashtag);
 			    
+			    try{
+			    	JsonObject scopes = json.get("scopes").getAsJsonObject();
+			    	if(scopes == null){
+				    	tw.setPromoted(false);
+				    }else{
+				    	tw.setPromoted(true);
+				    }
+			    }catch (Exception e){
+			    	
+			    }
+			    
 			    labeledTweets.add(tw);
 			}
 		} catch (JsonSyntaxException e) {
@@ -249,6 +271,17 @@ public class LabelTweets {
 				    }
 				    tw.setHashtag(hashtag);
 				    
+				    try{
+				    	JsonObject scopes = json.get("scopes").getAsJsonObject();
+				    	if(scopes == null){
+					    	tw.setPromoted(false);
+					    }else{
+					    	tw.setPromoted(true);
+					    }
+				    }catch (Exception e){
+				    	
+				    }
+				    
 				    // Retweet count is required
 				    unlabeledTweets.add(tw);
 			    }
@@ -321,6 +354,17 @@ public class LabelTweets {
 				    }
 				    tw.setHashtag(hashtag);
 				    
+				    try{
+				    	JsonObject scopes = json.get("scopes").getAsJsonObject();
+				    	if(scopes == null){
+					    	tw.setPromoted(false);
+					    }else{
+					    	tw.setPromoted(true);
+					    }
+				    }catch (Exception e){
+				    	
+				    }
+				    
 				    // Retweet count is required
 				    labeledTweets.add(tw);
 			    }
@@ -367,29 +411,33 @@ public class LabelTweets {
 			e.printStackTrace();
 		}
 		
-		System.out.println(feature.authorAverageCountFollowees("HowellsandHood"));
-		System.out.println(feature.authorAverageCountFriends("HowellsandHood"));
-		System.out.println(feature.authorAverageStatusesCount("HowellsandHood"));
-		System.out.println(feature.authorFractionHasDescription("HowellsandHood"));
-		System.out.println(feature.authorFractionHasUrl("HowellsandHood"));
-		System.out.println(feature.authorFractionIsVerified("HowellsandHood"));
-		System.out.println(feature.averageLength("HowellsandHood"));
-		System.out.println(feature.countDistinctAuthor("HowellsandHood"));
-		System.out.println(feature.countDistinctExpandedUrl("HowellsandHood"));
-		System.out.println(feature.countDistinctHashtag("HowellsandHood"));
-		System.out.println(feature.countDistinctUserMention("HowellsandHood"));
-		System.out.println(feature.countTweets("HowellsandHood"));
-		System.out.println(feature.fractionRetweets("HowellsandHood"));
-		System.out.println(feature.fractionTweets30PctUppercase("HowellsandHood"));
-		System.out.println(feature.fractionTweetsExclamationMark("HowellsandHood"));
-		System.out.println(feature.fractionTweetsQuestionMark("HowellsandHood"));
-		System.out.println(feature.fractionTweetsURL("HowellsandHood"));
-		System.out.println(feature.fractionTweetsUserMention("HowellsandHood"));
-		System.out.println(feature.fractionTweetsMultiQuestOrExclMark("HowellsandHood"));
-		System.out.println(feature.fractionTweetsHashtag("HowellsandHood"));
-		System.out.println(feature.shareMostFreqAuthor("HowellsandHood"));
-		System.out.println(feature.shareMostFreqExpandedUrl("HowellsandHood"));
-		System.out.println(feature.shareMostFreqHashtag("HowellsandHood"));
-		System.out.println(feature.shareMostFreqUserMention("HowellsandHood"));
+//		System.out.println(feature.authorAverageCountFollowees("HowellsandHood"));
+//		System.out.println(feature.authorAverageCountFriends("HowellsandHood"));
+//		System.out.println(feature.authorAverageStatusesCount("HowellsandHood"));
+//		System.out.println(feature.authorFractionHasDescription("HowellsandHood"));
+//		System.out.println(feature.authorFractionHasUrl("HowellsandHood"));
+//		System.out.println(feature.authorFractionIsVerified("HowellsandHood"));
+//		System.out.println(feature.averageLength("HowellsandHood"));
+//		System.out.println(feature.countDistinctAuthor("HowellsandHood"));
+//		System.out.println(feature.countDistinctExpandedUrl("HowellsandHood"));
+//		System.out.println(feature.countDistinctHashtag("HowellsandHood"));
+//		System.out.println(feature.countDistinctUserMention("HowellsandHood"));
+//		System.out.println(feature.countTweets("HowellsandHood"));
+//		System.out.println(feature.fractionRetweets("HowellsandHood"));
+//		System.out.println(feature.fractionTweets30PctUppercase("HowellsandHood"));
+//		System.out.println(feature.fractionTweetsExclamationMark("HowellsandHood"));
+//		System.out.println(feature.fractionTweetsQuestionMark("HowellsandHood"));
+//		System.out.println(feature.fractionTweetsURL("HowellsandHood"));
+//		System.out.println(feature.fractionTweetsUserMention("HowellsandHood"));
+//		System.out.println(feature.fractionTweetsMultiQuestOrExclMark("HowellsandHood"));
+//		System.out.println(feature.fractionTweetsHashtag("HowellsandHood"));
+//		System.out.println(feature.shareMostFreqAuthor("HowellsandHood"));
+//		System.out.println(feature.shareMostFreqExpandedUrl("HowellsandHood"));
+//		System.out.println(feature.shareMostFreqHashtag("HowellsandHood"));
+//		System.out.println(feature.shareMostFreqUserMention("HowellsandHood"));
+		
+//		String s = ":) Hello Hi ... :P ... :-P Yodfg =) dfgdfgdfg:Dfdgdfgdfg ;)dfgdfgdfgdfg :)";
+//		s = s.replace(":)", "smiley").replace(":P", "smiley").replace(":-P", "smiley").replace("=)", "smiley").replace(":D", "smiley").replace(";)", "smiley").replace(":)", "smiley");
+//		System.out.println(s);
 	}
 }

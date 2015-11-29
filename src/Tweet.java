@@ -17,6 +17,7 @@ public class Tweet {
 	private String user_url;
 	private ArrayList<String> user_mention;
 	private ArrayList<String> hashtag;
+	private boolean promoted;
 	
 	public void setRetweet_count(int retweet_count) {
 		this.retweet_count = retweet_count;
@@ -141,6 +142,14 @@ public class Tweet {
 
 	public void setHashtag(ArrayList<String> hashtag) {
 		this.hashtag = hashtag;
+	}
+
+	public boolean isPromoted() {
+		return promoted;
+	}
+
+	public void setPromoted(boolean promoted) {
+		this.promoted = promoted;
 	}
 
 }

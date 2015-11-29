@@ -53,6 +53,7 @@ public class MainApp
         	str.append(" " + text);
         }
         str.append("\n");
+        str.append("Promoted : " + unLabeledTweets.get(count).isPromoted() + "\n");
         textArea.setText(str.toString());
         textArea.setEditable(false);
         creditButton = new JButton("Credible");
@@ -87,6 +88,7 @@ public class MainApp
                 	str.append(" " + text);
                 }
                 str.append("\n");
+                str.append("Promoted : " + unLabeledTweets.get(count).isPromoted() + "\n");
                 textArea.setText(str.toString());
                 frame.revalidate();
                 frame.repaint();
@@ -124,6 +126,7 @@ public class MainApp
                 	str.append(" " + text);
                 }
                 str.append("\n");
+                str.append("Promoted : " + unLabeledTweets.get(count).isPromoted() + "\n");
                 textArea.setText(str.toString());
                 frame.revalidate();
                 frame.repaint();

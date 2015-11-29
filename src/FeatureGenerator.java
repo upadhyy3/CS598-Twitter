@@ -44,7 +44,7 @@ import weka.core.converters.CSVSaver;
 		MSGfeatures = new String [] {"LengthOfMessage","LengthOfWords","CountOfUpperCaseCharacters","ContainsHashtag","NumberOfUniqueCharacters"
 		,"Retweet_Count","tweetIsaReply","numberOf@", "hasURL","NumberOfURL","UseOfURLShotner"};
 		userFeatures = new String [] {"NumberOfStatuses","NumberOfFollowers","NumberOfFollowees","Verified","LengthOfDescription","LengthOfScreenName", "HasURL", 
-		"RatioOfFollowersToFollowees", "NumberOfPositiveWord", "NumberOfNegativeWord", "SWNSentimentScore", "NounCount", "PronounCount"};
+		"RatioOfFollowersToFollowees", "NumberOfPositiveWord", "NumberOfNegativeWord", "SWNSentimentScore", "NounCount", "PronounCount", "Promoted"};
 		labelOfTweet = new FastVector(2);
 		labelOfTweet.addElement("C");
 		labelOfTweet.addElement("NC");
@@ -74,9 +74,10 @@ import weka.core.converters.CSVSaver;
 		    String description = tweet.getDescription();
 		    String screen_name = tweet.getScreen_name();
 		    String user_url = tweet.getUser_url();
+		    boolean promoted = tweet.isPromoted();
 		  //  System.out.println(label);
 		    Instance instance = makeInstance(instances, line,label,retweet_count,is_reply,fullURL, number_of_statuses, number_of_followers, number_of_followees, 
-					is_verified, description, screen_name, user_url);
+					is_verified, description, screen_name, user_url, promoted);
 	
 		    instances.add(instance);
 		}
@@ -248,7 +249,7 @@ import weka.core.converters.CSVSaver;
 	    
 	    private static Instance makeInstance(Instances instances, String inputLine,String label,int retweet_count,String is_reply,ArrayList<String> fullURL,
 	    		int number_of_statuses, int number_of_followers, int number_of_followees, boolean is_verified, String description, String screen_name, 
-				String user_url) {
+				String user_url, boolean promoted) {
 	    	inputLine = inputLine.trim();
 	    	Instance instance = new Instance(MSGfeatures.length+ userFeatures.length + 1);
 	    	instance.setDataset(instances);
@@ -395,6 +396,13 @@ import weka.core.converters.CSVSaver;
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+			}
+			
+			//Promoted
+			if(promoted){
+				instance.setValue(instances.attribute(24), 1.0);
+			}else{
+				instance.setValue(instances.attribute(24), 0.0);
 			}
 	    	
 			//==================================== End of userFeatures =======================================
